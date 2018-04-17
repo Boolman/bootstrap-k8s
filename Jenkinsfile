@@ -4,7 +4,7 @@ def label = "mypod-${UUID.randomUUID().toString()}"
 // INPUT PARAMETERS
 properties([
   parameters([
-    string(name: 'OS_AUTH_URL', defaultValue: 'https://auth.hydrogen.units.cloud:5000/v3', description: 'Keystone Url', ),
+    string(name: 'OS_AUTH_URL', defaultValue: 'https://auth.example.tld:5000/v3', description: 'Keystone Url', ),
     string(name: 'OS_PROJECT_ID', defaultValue: '1234567789', description: 'Project ID', ),
     string(name: 'OS_PROJECT_NAME', defaultValue: 'MYPROJECT', description: 'Project Name', ),
     string(name: 'OS_USER_DOMAIN_NAME', defaultValue: 'admin_domain', description: 'Domain Name', ),
