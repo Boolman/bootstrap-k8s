@@ -101,7 +101,7 @@ podTemplate(
           container('openstack-cli') {
               stage('update port list') {
                   sh """
-                    ash update-os-ports.sh
+                    cat inventory | grep ansible_ssh_host | cut -d "=" -f2 | sort -u | ash update-os-ports.sh
                     #neutron port-list -c id -f value | xargs -r -IPORTID neutron port-update PORTID --allowed_address_pairs list=true type=dict ip_address=10.233.0.0/18 ip_address=10.233.64.0/18 || true
                   """
               }
