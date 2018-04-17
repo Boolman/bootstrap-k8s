@@ -1,0 +1,6 @@
+# traefik.toml
+defaultEntryPoints = ["http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"

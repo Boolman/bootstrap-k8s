@@ -1,0 +1,17 @@
+ansible_become: true
+bootstrap_os: none
+calico_mtu: 1430
+etcd_data_dir: /var/lib/etcd
+bin_dir: /usr/local/bin
+upstream_dns_servers:
+  - 8.8.8.8 
+cloud_provider: openstack
+openstack_lbaas_enabled: False
+kube_read_only_port: 10255
+
+openstack_auth_url: "{{ lookup('env', 'OS_AUTH_URL') }}"
+openstack_username: "{{ lookup('env', 'OS_USERNAME') }}"
+openstack_password: "{{ lookup('env', 'OS_PASSWORD') }}"
+openstack_region: "{{ lookup('env', 'OS_REGION_NAME') }}"
+openstack_tenant_id: "{{ lookup('env', 'OS_PROJECT_ID') }}"
+openstack_domain_name: "{{ lookup('env','OS_USER_DOMAIN_NAME') }}"

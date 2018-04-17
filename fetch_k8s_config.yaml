@@ -1,0 +1,26 @@
+---
+- hosts: kube-master[0]
+  tasks:
+    - name: debug
+      debug: msg="{{ansible_ssh_host}}"
+      register: val
+    - name: Fetch k8s config
+      fetch:
+        flat: true
+        src: /root/.kube/config
+        dest: ./
+      become: true
+    - name: replace host string in file
+      local_action: 
+        module: replace
+        path: "{{ playbook_dir }}/config"
+        regexp: 'server: .*'
+        replace: "server: https://{{ val.msg }}:6443"
+      run_once: true
+    - name: write k8surl file
+      local_action:
+        module: copy
+        dest: "{{ playbook_dir }}/env_k8surl"
+        content: |
+          https://{{ val.msg }}:6443
+
