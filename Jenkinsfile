@@ -93,7 +93,6 @@ podTemplate(
                       kubectl --insecure-skip-tls-verify=true --kubeconfig config get nodes
                       kubectl --insecure-skip-tls-verify=true --kubeconfig config -n kube-system create configmap traefik-conf --from-file=k8s/traefik/traefik.toml
                       kubectl --insecure-skip-tls-verify=true --kubeconfig config create -f k8s/traefik/traefik.yaml
-                      kubectl --insecure-skip-tls-verify=true --kubeconfig config create -f k8s/jenkins/storage.yaml
                   """
               }
           }
