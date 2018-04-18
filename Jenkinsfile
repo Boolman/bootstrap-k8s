@@ -34,6 +34,7 @@ podTemplate(
     containerTemplate(name: 'ansible', image: 'boolman/ansible:vanilla', ttyEnabled: true, command: 'cat', alwaysPullImage: true),
     containerTemplate(name: 'openstack-cli', image: 'boolman/openstack-cli:ocata', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat')
+    // containerTemplate(name: 'consul', image: 'consul:1.0.7', ttyEnabled: true, command: "agent -retry-join 'consul'")
     
   ],
   serviceAccount: 'jenkins') {
@@ -103,10 +104,19 @@ podTemplate(
               stage('update port list') {
                   sh """
                     cat inventory | grep ansible_ssh_host | cut -d "=" -f2 | sort -u | ash update-os-ports.sh
-                    #neutron port-list -c id -f value | xargs -r -IPORTID neutron port-update PORTID --allowed_address_pairs list=true type=dict ip_address=10.233.0.0/18 ip_address=10.233.64.0/18 || true
                   """
               }
           }
-      }
+      } /*
+      stage('store inventory file in consul') {
+          container('consul') {
+              stage('store inventory in consul') {
+                  sh """
+                      ash consul_raw
+                  """
+              }
+           }
+      } */
+
     }
 }
