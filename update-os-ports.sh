@@ -1,5 +1,5 @@
 set -e
-netone=$(cat group_vars/k8s-cluster.yaml | grep kube_service_addresses | awk '{print $2}')
+netone=$(cat group_vars/k8s-cluster.yaml | grep ^kube_service_addresses | awk '{print $2}')
 nettwo=$(cat group_vars/k8s-cluster.yaml | grep ^kube_pods_subnet | awk '{print $2}')
 
 while IFS= read -r host
