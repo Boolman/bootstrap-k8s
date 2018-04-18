@@ -34,11 +34,11 @@ resource "null_resource" "ansible-provision" {
 
   ## Generate consul commands
   provisioner "local-exec" {
-    command =  "echo \"${join("\n",formatlist("consul kv put inventory/kube-master/%s ansible_ssh_host=%s", openstack_compute_instance_v2.k8s.*.name, openstack_compute_floatingip_v2.node-ip.*.address))}\" >> consul_raw"
+    command =  "echo \"${join("\n",formatlist("consul kv put inventory/kube-master/%s:ansible_ssh_host=%s", openstack_compute_instance_v2.k8s.*.name, openstack_compute_floatingip_v2.node-ip.*.address))}\" >> consul_raw"
   }
 
   provisioner "local-exec" {
-    command =  "echo \"${join("\n",formatlist("consul kv put inventory/kube-node/%s ansible_ssh_host=%s", openstack_compute_instance_v2.k8s.*.name, openstack_compute_floatingip_v2.node-ip.*.address))}\" >> consul_raw"
+    command =  "echo \"${join("\n",formatlist("consul kv put inventory/kube-node/%s:ansible_ssh_host=%s", openstack_compute_instance_v2.k8s.*.name, openstack_compute_floatingip_v2.node-ip.*.address))}\" >> consul_raw"
   }
 
   provisioner "local-exec" {
