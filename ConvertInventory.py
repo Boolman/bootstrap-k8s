@@ -13,10 +13,13 @@ def createMap(content):
     karta = {}
     for line in content:
         arr = line.split('/')
-        yarr = arr[2].split(':')
-        if not arr[1] in karta:
-            karta[arr[1]] = {}
-        karta[arr[1]][yarr[0]] = yarr[1]
+        try:
+            yarr = arr[2].split(':')
+            if not arr[1] in karta:
+                karta[arr[1]] = {}
+            karta[arr[1]][yarr[0]] = yarr[1]
+        except:
+            karta[arr[1]][yarr[0]] = ''
     return karta
 
 
