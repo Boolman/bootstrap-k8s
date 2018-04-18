@@ -33,7 +33,7 @@ podTemplate(
     containerTemplate(name: 'terraform', image: 'hashicorp/terraform:0.11.6', ttyEnabled: true, command: 'cat', alwaysPullImage: true),
     containerTemplate(name: 'ansible', image: 'boolman/ansible:vanilla', ttyEnabled: true, command: 'cat', alwaysPullImage: true),
     containerTemplate(name: 'openstack-cli', image: 'boolman/openstack-cli:ocata', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat')
+    containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'consul', image: 'consul:1.0.7', ttyEnabled: true, command: 'agent -retry-join consul')
     
   ],
