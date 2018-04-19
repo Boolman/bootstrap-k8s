@@ -29,6 +29,7 @@ env.OS_IDENTITY_API_VERSION = '3'
 podTemplate(
   label: label, 
   containers: [
+    // containerTemplate(name: 'klar', image: 'boolman/klar', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'k8s', image: 'lachlanevenson/k8s-kubectl:v1.9.6', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'terraform', image: 'hashicorp/terraform:0.11.6', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'ansible', image: 'boolman/ansible:vanilla', ttyEnabled: true, command: 'cat'),
@@ -129,6 +130,13 @@ podTemplate(
                   """
               }
           }
+      }
+      stage('Vulnerability check') {
+          container('klar') {
+              stage('run klar on container') {
+                  sh "echo CLAIR_ADDR=http://innocent-squid-clair.default.svc.cluster.local /klar boolman/docker_ipsec:v1.1"
+                }
+            }
       }
       */
       
