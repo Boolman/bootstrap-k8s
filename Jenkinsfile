@@ -126,7 +126,7 @@ podTemplate(
           container('kaniko') {
               stage('build') {
                   sh """
-                      ./executor -c \${PWD} -f \${PWD}/Dockerfile  -d \${REGISTRY_HOST}:\${REGISTRY_PORT}/\${ORG_NAME}/\${IMAGE_NAME}:\${TAG}
+                      /kaniko/executor -c \${PWD} -d \${REGISTRY_HOST}:\${REGISTRY_PORT}/\${ORG_NAME}/\${IMAGE_NAME}:\${TAG}
                   """
               }
           }
