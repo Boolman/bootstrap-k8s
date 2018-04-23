@@ -154,7 +154,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - host: guestbook.dgc.local
+  - host: guestbook.local
     http:
       paths:
       - path: /
