@@ -69,7 +69,7 @@ podTemplate(
           container('confd') {
               stage('confd') {
               sh """
-                  confd -ontetime -backend consul -node 127.0.0.1:8500 -confdir confd
+                  confd -onetime -backend consul -node 127.0.0.1:8500 -confdir confd
               """
               }
           }
