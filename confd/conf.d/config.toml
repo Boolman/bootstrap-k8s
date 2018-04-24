@@ -1,0 +1,7 @@
+[template]
+src = "inventory.tmpl"
+dest = "inventory"
+keys = [
+    "/inventory",
+]
+

@@ -36,6 +36,7 @@ podTemplate(
     containerTemplate(name: 'openstack-cli', image: 'boolman/openstack-cli:ocata', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'consul', image: 'consul:1.0.7', ttyEnabled: true, command: 'consul', args: 'agent -retry-join consul -data-dir /tmp'),
+    containerTemplate(name: 'confd', image: 'boolman/confd', ttyEnabled: true, command: 'cat'),
     // containerTemplate(name: 'kaniko', image: 'boolman/kaniko', ttyEnabled: true, command: 'cat'),
   ], /*
   volumes: [
@@ -63,7 +64,18 @@ podTemplate(
               }
           }
       }
-
+      /*
+      stage('rebuild inventory file') {
+          container('confd') {
+              stage('confd') {
+              sh """
+                  confd -ontetime -backend consul -node 127.0.0.1:8500 -confdir confd
+              """
+              }
+          }
+      }
+      */
+ 
       stage('terraform') {
           container('terraform') {
               stage('bootstrap openstack env') {

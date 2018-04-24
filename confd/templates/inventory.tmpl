@@ -1,0 +1,7 @@
+{{ range $dir := lsdir "/inventory/" -}}
+[{{ base $dir }}]
+{{$node := printf "/inventory/%s/*" $dir}}{{range gets $node -}}      
+{{ $nodename := split (.Key) "/" -}}
+{{index $nodename 3}} {{ .Value }}
+{{end}}
+{{end}}
