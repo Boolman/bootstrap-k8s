@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  vars:
+    content: "{{ lookup('file', 'filnamn.txt') }}"
+  tasks:
+   - name: create inventory
+     consul_kv:
+       key: "{{ item.split()[0] }}"
+       value: "{{ item.split()[1] }}"
+       state: present
+     with_items: "{{ content.split('\n') }}"
+

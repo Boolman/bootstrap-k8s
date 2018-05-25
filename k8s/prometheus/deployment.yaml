@@ -1,0 +1,72 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: monitoring
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+    spec:
+      serviceAccountName: prometheus
+      containers:
+        - name: confd
+          image: boolman/confd
+          command: [ "confd", "-backend", "consul", "http://consul:8500" ]
+          volumeMounts:
+            - name: confd-template-volume
+              mountPath: /etc/confd/templates/
+            - name: confd-config-volume
+              mountPath: /etc/confd/conf.d/
+            - name: confd-storage
+              mountPath: /etc/confd
+
+        - name: prometheus
+          image: prom/prometheus:v2.1.0
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus/"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: prometheus-storage-volume
+              mountPath: /prometheus/
+      volumes:
+        - name: confd-template-volume
+          configMap:
+            defaultMode: 420
+            name: confd-template
+        - name: confd-conf-volume
+          configMap:
+            defaultMode: 420
+            name: confd-conf-file
+        - name: confd-storage
+          emptyDir: {}
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf
+        - name: prometheus-storage-volume
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path:   /
+      prometheus.io/port:   '8080'
+  
+spec:
+  selector: 
+    app: prometheus-server
+  type: NodePort  
+  ports:
+    - port: 8080
+      targetPort: 9090 

@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: confd-config 
+  labels:
+    name: confd-config
+  namespace: monitoring
+data:
+  export.yaml: |-
+[template]
+src = "exporter.tmpl"
+dest = "/etc/prometheus/sd_exporter_file.yaml"
+keys = [
+    "/prometheus/",
+]
+
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: confd-template
+  labels:
+    name: confd-template
+  namespace: monitoring
+data:
+  export.yaml: |-
+[
+{{ range $dir := lsdir "/prometheus/" -}}
+{{$node := printf "/prometheus/%s/*" $dir}}{{range gets $node -}}      
+{{ $ip := printf "%s" (index (split (.Value) "=") 1) -}}
+{{ $port := printf "%s" (index (split ($dir) "_") 2) -}}
+  { "targets": [ "{{$ip}}:{{$port}}" ] },
+{{end -}}
+{{end -}}
+]
+
