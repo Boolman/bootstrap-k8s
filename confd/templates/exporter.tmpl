@@ -1,9 +1,9 @@
 # Prometheus file-sd generator
 
-#[exporter_mysql_9104]
-#hostname ansible_ssh_host=1.2.3.4
-#[exporter_postgres_9105]
-#hostname ansible_ssh_host=1.2.3.4
+# Consul format:
+#inventory/exporter_mysql_9104/hostname10:ansible_ssh_host=1.2.3.4
+#inventory/exporter_postgres_9105/hostname10:ansible_ssh_host=1.2.3.4
+
 
 [
 {{ range $dir := lsdir "/inventory/" -}}
