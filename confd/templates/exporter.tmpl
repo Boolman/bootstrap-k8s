@@ -1,13 +1,13 @@
 # Prometheus file-sd generator
 
 # Consul format:
-#inventory/exporter_mysql_9104/hostname10:ansible_ssh_host=1.2.3.4
-#inventory/exporter_postgres_9105/hostname10:ansible_ssh_host=1.2.3.4
+#prometheus/exporter_mysql_9104/hostname10:ansible_ssh_host=1.2.3.4
+#prometheus/exporter_postgres_9105/hostname10:ansible_ssh_host=1.2.3.4
 
 
 [
-{{ range $dir := lsdir "/inventory/" -}}
-{{$node := printf "/inventory/%s/*" $dir}}{{range gets $node -}}      
+{{ range $dir := lsdir "/prometheus/" -}}
+{{$node := printf "/prometheus/%s/*" $dir}}{{range gets $node -}}      
 {{ $ip := printf "%s" (index (split (.Value) "=") 1) -}}
 {{ $port := printf "%s" (index (split ($dir) "_") 2) -}}
   { "targets": [ "{{$ip}}:{{$port}}" ] },
