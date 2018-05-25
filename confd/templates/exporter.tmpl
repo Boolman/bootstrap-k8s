@@ -8,9 +8,9 @@
 [
 {{ range $dir := lsdir "/inventory/" -}}
 {{$node := printf "/inventory/%s/*" $dir}}{{range gets $node -}}      
-{{ $hostname := printf "%s" (index (split (.Value) "=") 1) -}}
-{{ $ip := printf "%s" (index (split ($dir) "_") 2) -}}
-  { "targets": [ "{{$hostname}}:{{$ip}}" ] },
+{{ $ip := printf "%s" (index (split (.Value) "=") 1) -}}
+{{ $port := printf "%s" (index (split ($dir) "_") 2) -}}
+  { "targets": [ "{{$ip}}:{{$port}}" ] },
 {{end -}}
 {{end -}}
 ]
