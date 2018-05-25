@@ -1,0 +1,7 @@
+[template]
+src = "exporter.tmpl"
+dest = "exporter"
+keys = [
+    "/inventory",
+]
+

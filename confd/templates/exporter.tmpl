@@ -1,0 +1,17 @@
+# Prometheus file-sd generator
+
+#[exporter_mysql_9104]
+#hostname ansible_ssh_host=1.2.3.4
+#[exporter_postgres_9105]
+#hostname ansible_ssh_host=1.2.3.4
+
+[
+{{ range $dir := lsdir "/inventory/" -}}
+{{$node := printf "/inventory/%s/*" $dir}}{{range gets $node -}}      
+{{ $hostname := printf "%s" (index (split (.Value) "=") 1) -}}
+{{ $ip := printf "%s" (index (split ($dir) "_") 2) -}}
+  { "targets": [ "{{$hostname}}:{{$ip}}" ] },
+{{end -}}
+{{end -}}
+]
+
