@@ -7,7 +7,7 @@
 
 [
 {{ range $dir := lsdir "/prometheus/" -}}
-{{$node := printf "/prometheus/%s/*" $dir}}{{range gets $node -}}      
+{{$node := printf "/prometheus/%s/*" $dir}}{{range gets $node -}} 
 {{ $ip := printf "%s" (index (split (.Value) "=") 1) -}}
 {{ $port := printf "%s" (index (split ($dir) "_") 2) -}}
   { "targets": [ "{{$ip}}:{{$port}}" ] },

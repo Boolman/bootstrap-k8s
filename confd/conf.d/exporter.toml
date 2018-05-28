@@ -1,6 +1,7 @@
 [template]
 src = "exporter.tmpl"
-dest = "/etc/prometheus/sd_exporter_file.yaml"
+#dest = "/etc/prometheus/sd_exporter_file.yaml"
+dest = "sd_exporter_file.yaml"
 keys = [
     "/prometheus/",
 ]

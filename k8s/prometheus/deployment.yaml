@@ -12,17 +12,6 @@ spec:
     spec:
       serviceAccountName: prometheus
       containers:
-        - name: confd
-          image: boolman/confd
-          command: [ "confd", "-backend", "consul", "http://consul:8500" ]
-          volumeMounts:
-            - name: confd-template-volume
-              mountPath: /etc/confd/templates/
-            - name: confd-config-volume
-              mountPath: /etc/confd/conf.d/
-            - name: confd-storage
-              mountPath: /etc/confd
-
         - name: prometheus
           image: prom/prometheus:v2.1.0
           args:
@@ -35,15 +24,31 @@ spec:
               mountPath: /etc/prometheus/
             - name: prometheus-storage-volume
               mountPath: /prometheus/
+            - name: confd-storage
+              mountPath: /etc/prometheus/exporters
+        - name: confd
+          image: boolman/confd
+          command: [ "confd", "-backend", "consul", "-node", "http://consul:8500" ]
+          volumeMounts:
+            - name: confd-template-volume
+              mountPath: /etc/confd/templates/
+            - name: confd-config-volume
+              mountPath: /etc/confd/conf.d/
+            - name: confd-storage
+              mountPath: /etc/confd
+            - name: confd-storage 
+              mountPath: /config/prometheus
       volumes:
         - name: confd-template-volume
           configMap:
             defaultMode: 420
             name: confd-template
-        - name: confd-conf-volume
+        - name: confd-config-volume
           configMap:
             defaultMode: 420
-            name: confd-conf-file
+            name: confd-config
+        - name: exporter-storage
+          emptyDir: {}
         - name: confd-storage
           emptyDir: {}
         - name: prometheus-config-volume
@@ -60,8 +65,8 @@ metadata:
   namespace: monitoring
   annotations:
       prometheus.io/scrape: 'true'
-      prometheus.io/path:   /
-      prometheus.io/port:   '8080'
+      prometheus.io/path:   '/metrics'
+      prometheus.io/port:   '9090'
   
 spec:
   selector: 
