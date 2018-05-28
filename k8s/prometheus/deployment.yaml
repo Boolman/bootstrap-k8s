@@ -24,7 +24,7 @@ spec:
               mountPath: /etc/prometheus/
             - name: prometheus-storage-volume
               mountPath: /prometheus/
-            - name: confd-storage
+            - name: exporter-storage
               mountPath: /etc/prometheus/exporters
         - name: confd
           image: boolman/confd
@@ -36,7 +36,7 @@ spec:
               mountPath: /etc/confd/conf.d/
             - name: confd-storage
               mountPath: /etc/confd
-            - name: confd-storage 
+            - name: exporter-storage 
               mountPath: /config/prometheus
       volumes:
         - name: confd-template-volume
